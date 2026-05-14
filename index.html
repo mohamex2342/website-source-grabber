@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Cloner | Professional UI</title>
+    <title>Master Cloner | Multi-Asset Edition</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,193 +23,100 @@
             background: var(--bg-black) url('https://w0.peakpx.com/wallpaper/593/631/HD-wallpaper-blue-purple-nebula-stars-background-cosmos-nebula.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
             overflow: hidden;
         }
 
-        /* طبقة التغبيش الزجاجي الخلفي */
         .overlay-blur {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            backdrop-filter: blur(10px);
-            background: rgba(0, 0, 0, 0.3);
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            backdrop-filter: blur(10px); background: rgba(0, 0, 0, 0.3); z-index: -1;
         }
 
-        /* الهيدر العلوي */
         header {
-            padding: 15px 25px;
-            background: var(--glass);
+            padding: 15px 25px; background: var(--glass);
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            backdrop-filter: blur(25px);
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 20px; backdrop-filter: blur(25px);
         }
 
         .brand {
-            font-weight: 900;
-            font-size: 1.3rem;
+            font-weight: 900; font-size: 1.3rem;
             background: linear-gradient(to right, var(--cyan), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 1px;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 10px;
         }
 
-        .input-wrapper {
-            flex: 1;
-            max-width: 600px;
-            display: flex;
-            gap: 10px;
-        }
+        .input-wrapper { flex: 1; max-width: 600px; display: flex; gap: 10px; }
 
         input {
-            flex: 1;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border);
-            padding: 12px 18px;
-            border-radius: 12px;
-            color: var(--cyan);
-            outline: none;
-            transition: 0.3s;
-            font-size: 14px;
+            flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+            padding: 12px 18px; border-radius: 12px; color: var(--cyan); outline: none;
         }
-
-        input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
 
         .btn-glow {
             background: linear-gradient(45deg, var(--purple), #4e00c2);
-            border: none;
-            color: white;
-            padding: 0 25px;
-            border-radius: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
+            border: none; color: white; padding: 0 25px; border-radius: 12px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
             box-shadow: 0 4px 15px rgba(188, 19, 254, 0.3);
         }
 
         .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(188, 19, 254, 0.5); }
-        .btn-glow:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* منطقة العمل */
-        main {
-            display: flex;
-            flex: 1;
-            padding: 20px;
-            gap: 20px;
-            overflow: hidden;
-        }
+        main { display: flex; flex: 1; padding: 20px; gap: 20px; overflow: hidden; }
 
-        aside {
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        aside { width: 320px; display: flex; flex-direction: column; gap: 20px; }
 
         .glass-panel {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(20px);
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 20px; padding: 15px; display: flex;
+            flex-direction: column; backdrop-filter: blur(20px);
         }
 
         .label {
-            font-size: 0.7rem;
-            color: var(--cyan);
-            margin-bottom: 15px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.7rem; color: var(--cyan); margin-bottom: 15px;
+            font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px;
+            display: flex; align-items: center; gap: 8px;
         }
 
         #file-list { flex: 1; overflow-y: auto; }
 
         .file-item {
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-            transition: 0.2s;
-            border: 1px solid transparent;
+            padding: 12px; border-radius: 10px; cursor: pointer;
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.8rem; margin-bottom: 5px; transition: 0.2s;
+            border: 1px solid transparent; white-space: nowrap; overflow: hidden;
         }
 
         .file-item:hover { background: rgba(255,255,255,0.05); }
         .file-item.active {
-            background: rgba(0, 242, 255, 0.12);
-            color: var(--cyan);
+            background: rgba(0, 242, 255, 0.12); color: var(--cyan);
             border-color: rgba(0, 242, 255, 0.3);
         }
 
-        /* محرّر الكود */
         .editor {
-            flex: 1;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--border);
-            border-radius: 25px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(30px);
+            flex: 1; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            border-radius: 25px; overflow: hidden; display: flex;
+            flex-direction: column; backdrop-filter: blur(30px);
         }
 
         .editor-top {
-            padding: 12px 25px;
-            background: rgba(255,255,255,0.03);
+            padding: 12px 25px; background: rgba(255,255,255,0.03);
             border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--cyan);
+            display: flex; justify-content: space-between; font-size: 0.8rem;
         }
 
-        #code-display {
-            flex: 1;
-            overflow: auto;
-            margin: 0;
-            padding: 20px;
-            background: transparent !important;
-            font-family: 'Fira Code', monospace;
-        }
+        #code-box { flex: 1; overflow: auto; padding: 20px; background: transparent !important; }
 
-        /* شريط التحميل */
         #loader {
-            position: fixed;
-            top: 0; left: 0; height: 3px; width: 0;
-            background: var(--cyan);
-            box-shadow: 0 0 15px var(--cyan);
-            z-index: 9999;
-            transition: 0.4s ease;
-        }
-
-        @media (max-width: 768px) {
-            header { flex-direction: column; }
-            main { flex-direction: column; overflow-y: auto; }
-            aside { width: 100%; }
-            .editor { min-height: 450px; }
+            position: fixed; top: 0; left: 0; height: 3px; width: 0;
+            background: var(--cyan); box-shadow: 0 0 15px var(--cyan);
+            z-index: 9999; transition: 0.4s ease;
         }
     </style>
 </head>
 <body>
-
     <div class="overlay-blur"></div>
     <div id="loader"></div>
 
@@ -217,30 +124,26 @@
         <div class="brand"><i class="fas fa-bolt"></i> MASTER CLONER</div>
         <div class="input-wrapper">
             <input type="url" id="target-url" placeholder="أدخل الرابط (https://example.com)...">
-            <button class="btn-glow" id="clone-btn" onclick="runClone()">استنساخ</button>
+            <button class="btn-glow" id="clone-btn" onclick="runClone()">استخراج الموارد</button>
         </div>
     </header>
 
     <main>
         <aside>
-            <div class="glass-panel" style="height: 120px;">
-                <div class="label"><i class="fas fa-folder-tree"></i> المجلدات</div>
-                <div class="file-item"><i class="fas fa-folder" style="color:#ffd700"></i> root_dir</div>
+            <div class="glass-panel" style="height: 100px;">
+                <div class="label"><i class="fas fa-folder-tree"></i> المجلد الرئيسي</div>
+                <div class="file-item"><i class="fas fa-folder" style="color:#ffd700"></i> www_root</div>
             </div>
             <div class="glass-panel" style="flex: 1;">
-                <div class="label"><i class="fas fa-terminal"></i> الملفات المكتشفة</div>
-                <div id="file-list">
-                    <div style="text-align: center; opacity: 0.5; margin-top: 20px; font-size: 0.8rem;">
-                        انتظار البيانات...
-                    </div>
-                </div>
+                <div class="label"><i class="fas fa-terminal"></i> جميع الموارد المكتشفة</div>
+                <div id="file-list"></div>
             </div>
         </aside>
 
         <section class="editor">
             <div class="editor-top">
-                <span id="file-name">المنصة جاهزة</span>
-                <span style="opacity:0.4"><i class="fas fa-code"></i> LIVE EDITOR</span>
+                <span id="file-name" style="color:var(--cyan)">انتظار الطلب...</span>
+                <span style="opacity:0.4">SOURCE VIEWER</span>
             </div>
             <pre><code id="code-box" class="language-html"></code></pre>
         </section>
@@ -259,36 +162,26 @@
             if (!url) return alert("برجاء إدخال رابط صحيح");
 
             btn.disabled = true;
-            btn.innerText = "جاري السحب...";
+            btn.innerText = "جاري التحليل...";
             loader.style.width = "40%";
 
             try {
-                // طلب الـ API - المسار /api هو الذي قمنا ببرمجته في vercel.json
                 const response = await fetch('/api', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ url: url })
                 });
 
-                loader.style.width = "80%";
-
-                if (!response.ok) {
-                    throw new Error(`خطأ من السيرفر: ${response.status}`);
-                }
+                if (!response.ok) throw new Error("فشل السيرفر في الاستجابة");
 
                 const data = await response.json();
-                
-                if (data.files) {
-                    renderSidebar(data.files);
-                    loader.style.width = "100%";
-                }
-
+                loader.style.width = "100%";
+                renderSidebar(data.files);
             } catch (err) {
-                alert("حدث خطأ: " + err.message);
-                loader.style.width = "0%";
+                alert("خطأ: " + err.message);
             } finally {
                 btn.disabled = false;
-                btn.innerText = "استنساخ";
+                btn.innerText = "استخراج الموارد";
                 setTimeout(() => loader.style.width = "0%", 1000);
             }
         }
@@ -300,7 +193,15 @@
             files.forEach((file, index) => {
                 const item = document.createElement('div');
                 item.className = 'file-item';
-                item.innerHTML = `<i class="fab fa-html5" style="color: #e34c26"></i> ${file.name}`;
+                
+                let icon = 'fa-file-code'; let color = '#00f2ff';
+                if(file.name.endsWith('.html')) { icon = 'fa-html5'; color = '#e34c26'; }
+                else if(file.name.endsWith('.css')) { icon = 'fa-css3-alt'; color = '#264de4'; }
+                else if(file.name.endsWith('.js')) { icon = 'fa-js'; color = '#f7df1e'; }
+                else if(file.name.includes('asset')) { icon = 'fa-image'; color = '#4caf50'; }
+                else if(file.name.includes('video')) { icon = 'fa-video'; color = '#ff5722'; }
+
+                item.innerHTML = `<i class="fab ${icon} fas" style="color: ${color}"></i> ${file.name}`;
                 item.onclick = () => {
                     document.querySelectorAll('.file-item').forEach(i => i.classList.remove('active'));
                     item.classList.add('active');
@@ -313,12 +214,10 @@
 
         function updateEditor(file) {
             const box = document.getElementById('code-box');
-            document.getElementById('file-name').innerText = `Viewing: ${file.name}`;
-            
+            document.getElementById('file-name').innerText = file.name;
             const ext = file.name.split('.').pop();
             box.className = `language-${ext === 'js' ? 'javascript' : (ext === 'css' ? 'css' : 'html')}`;
             box.textContent = file.content;
-            
             Prism.highlightAll();
         }
     </script>
