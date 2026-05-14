@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Cloner | Professional UI</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --cyan: #00f2ff;
+            --purple: #bc13fe;
+            --glass: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.15);
+            --bg-black: #050508;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg-black) url('https://w0.peakpx.com/wallpaper/593/631/HD-wallpaper-blue-purple-nebula-stars-background-cosmos-nebula.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* طبقة التغبيش الزجاجي الخلفي */
+        .overlay-blur {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        /* الهيدر العلوي */
+        header {
+            padding: 15px 25px;
+            background: var(--glass);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            backdrop-filter: blur(25px);
+        }
+
+        .brand {
+            font-weight: 900;
+            font-size: 1.3rem;
+            background: linear-gradient(to right, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            padding: 12px 18px;
+            border-radius: 12px;
+            color: var(--cyan);
+            outline: none;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+
+        .btn-glow {
+            background: linear-gradient(45deg, var(--purple), #4e00c2);
+            border: none;
+            color: white;
+            padding: 0 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(188, 19, 254, 0.3);
+        }
+
+        .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(188, 19, 254, 0.5); }
+        .btn-glow:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* منطقة العمل */
+        main {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        aside {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(20px);
+        }
+
+        .label {
+            font-size: 0.7rem;
+            color: var(--cyan);
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #file-list { flex: 1; overflow-y: auto; }
+
+        .file-item {
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .file-item:hover { background: rgba(255,255,255,0.05); }
+        .file-item.active {
+            background: rgba(0, 242, 255, 0.12);
+            color: var(--cyan);
+            border-color: rgba(0, 242, 255, 0.3);
+        }
+
+        /* محرّر الكود */
+        .editor {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(30px);
+        }
+
+        .editor-top {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--cyan);
+        }
+
+        #code-display {
+            flex: 1;
+            overflow: auto;
+            margin: 0;
+            padding: 20px;
+            background: transparent !important;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* شريط التحميل */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; height: 3px; width: 0;
+            background: var(--cyan);
+            box-shadow: 0 0 15px var(--cyan);
+            z-index: 9999;
+            transition: 0.4s ease;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; }
+            main { flex-direction: column; overflow-y: auto; }
+            aside { width: 100%; }
+            .editor { min-height: 450px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay-blur"></div>
+    <div id="loader"></div>
+
+    <header>
+        <div class="brand"><i class="fas fa-bolt"></i> MASTER CLONER</div>
+        <div class="input-wrapper">
+            <input type="url" id="target-url" placeholder="أدخل الرابط (https://example.com)...">
+            <button class="btn-glow" id="clone-btn" onclick="runClone()">استنساخ</button>
+        </div>
+    </header>
+
+    <main>
+        <aside>
+            <div class="glass-panel" style="height: 120px;">
+                <div class="label"><i class="fas fa-folder-tree"></i> المجلدات</div>
+                <div class="file-item"><i class="fas fa-folder" style="color:#ffd700"></i> root_dir</div>
+            </div>
+            <div class="glass-panel" style="flex: 1;">
+                <div class="label"><i class="fas fa-terminal"></i> الملفات المكتشفة</div>
+                <div id="file-list">
+                    <div style="text-align: center; opacity: 0.5; margin-top: 20px; font-size: 0.8rem;">
+                        انتظار البيانات...
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="editor">
+            <div class="editor-top">
+                <span id="file-name">المنصة جاهزة</span>
+                <span style="opacity:0.4"><i class="fas fa-code"></i> LIVE EDITOR</span>
+            </div>
+            <pre><code id="code-box" class="language-html"></code></pre>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+    <script>
+        async function runClone() {
+            const url = document.getElementById('target-url').value.trim();
+            const btn = document.getElementById('clone-btn');
+            const loader = document.getElementById('loader');
+
+            if (!url) return alert("برجاء إدخال رابط صحيح");
+
+            btn.disabled = true;
+            btn.innerText = "جاري السحب...";
+            loader.style.width = "40%";
+
+            try {
+                // طلب الـ API - المسار /api هو الذي قمنا ببرمجته في vercel.json
+                const response = await fetch('/api', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+
+                loader.style.width = "80%";
+
+                if (!response.ok) {
+                    throw new Error(`خطأ من السيرفر: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.files) {
+                    renderSidebar(data.files);
+                    loader.style.width = "100%";
+                }
+
+            } catch (err) {
+                alert("حدث خطأ: " + err.message);
+                loader.style.width = "0%";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "استنساخ";
+                setTimeout(() => loader.style.width = "0%", 1000);
+            }
+        }
+
+        function renderSidebar(files) {
+            const list = document.getElementById('file-list');
+            list.innerHTML = "";
+
+            files.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.innerHTML = `<i class="fab fa-html5" style="color: #e34c26"></i> ${file.name}`;
+                item.onclick = () => {
+                    document.querySelectorAll('.file-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    updateEditor(file);
+                };
+                list.appendChild(item);
+                if (index === 0) item.click();
+            });
+        }
+
+        function updateEditor(file) {
+            const box = document.getElementById('code-box');
+            document.getElementById('file-name').innerText = `Viewing: ${file.name}`;
+            
+            const ext = file.name.split('.').pop();
+            box.className = `language-${ext === 'js' ? 'javascript' : (ext === 'css' ? 'css' : 'html')}`;
+            box.textContent = file.content;
+            
+            Prism.highlightAll();
+        }
+    </script>
+</body>
+</html>
