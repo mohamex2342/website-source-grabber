@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Cloner | Multi-Asset Edition</title>
+    <title>Master Cloner | Final Fixed Edition</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,7 +12,7 @@
         :root {
             --cyan: #00f2ff;
             --purple: #bc13fe;
-            --glass: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.1);
             --border: rgba(255, 255, 255, 0.15);
             --bg-black: #050508;
         }
@@ -23,127 +23,173 @@
             background: var(--bg-black) url('https://w0.peakpx.com/wallpaper/593/631/HD-wallpaper-blue-purple-nebula-stars-background-cosmos-nebula.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100vh;
-            display: flex; flex-direction: column;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* يمنع تمرير الصفحة كاملة للتركيز على الأجزاء الداخلية */
         }
 
         .overlay-blur {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            backdrop-filter: blur(10px); background: rgba(0, 0, 0, 0.3); z-index: -1;
+            backdrop-filter: blur(12px); background: rgba(0, 0, 0, 0.4); z-index: -1;
         }
+
+        /* تخصيص شريط التمرير لجميع العناصر */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+        ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 10px; box-shadow: 0 0 10px var(--cyan); }
 
         header {
             padding: 15px 25px; background: var(--glass);
             border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
-            gap: 20px; backdrop-filter: blur(25px);
+            gap: 20px; backdrop-filter: blur(25px); z-index: 10;
         }
 
         .brand {
-            font-weight: 900; font-size: 1.3rem;
+            font-weight: 900; font-size: 1.4rem;
             background: linear-gradient(to right, var(--cyan), var(--purple));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            display: flex; align-items: center; gap: 10px;
+            display: flex; align-items: center; gap: 12px;
         }
 
-        .input-wrapper { flex: 1; max-width: 600px; display: flex; gap: 10px; }
+        .input-wrapper { flex: 1; max-width: 650px; display: flex; gap: 12px; }
 
         input {
-            flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-            padding: 12px 18px; border-radius: 12px; color: var(--cyan); outline: none;
+            flex: 1; background: rgba(0,0,0,0.5); border: 1px solid var(--border);
+            padding: 12px 20px; border-radius: 12px; color: var(--cyan);
+            outline: none; transition: 0.3s; font-size: 14px;
         }
+        input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
 
         .btn-glow {
             background: linear-gradient(45deg, var(--purple), #4e00c2);
-            border: none; color: white; padding: 0 25px; border-radius: 12px;
+            border: none; color: white; padding: 0 30px; border-radius: 12px;
             font-weight: bold; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(188, 19, 254, 0.3);
+            box-shadow: 0 4px 15px rgba(188, 19, 254, 0.4);
         }
+        .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(188, 19, 254, 0.6); }
 
-        .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(188, 19, 254, 0.5); }
-
-        main { display: flex; flex: 1; padding: 20px; gap: 20px; overflow: hidden; }
+        main {
+            display: flex; flex: 1; padding: 20px; gap: 20px;
+            overflow: hidden; /* الحاويات الداخلية هي التي ستتمرر */
+        }
 
         aside { width: 320px; display: flex; flex-direction: column; gap: 20px; }
 
         .glass-panel {
             background: var(--glass); border: 1px solid var(--border);
-            border-radius: 20px; padding: 15px; display: flex;
+            border-radius: 20px; padding: 18px; display: flex;
             flex-direction: column; backdrop-filter: blur(20px);
+            overflow: hidden;
         }
 
         .label {
-            font-size: 0.7rem; color: var(--cyan); margin-bottom: 15px;
-            font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px;
-            display: flex; align-items: center; gap: 8px;
+            font-size: 0.75rem; color: var(--cyan); margin-bottom: 15px;
+            font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
+            display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
         }
 
-        #file-list { flex: 1; overflow-y: auto; }
+        /* إصلاح التمرير في قائمة الملفات */
+        #file-list {
+            flex: 1;
+            overflow-y: auto; /* يسمح بالتمرير العمودي للملفات */
+            padding-right: 5px;
+        }
 
         .file-item {
-            padding: 12px; border-radius: 10px; cursor: pointer;
+            padding: 12px 15px; border-radius: 10px; cursor: pointer;
             display: flex; align-items: center; gap: 12px;
-            font-size: 0.8rem; margin-bottom: 5px; transition: 0.2s;
-            border: 1px solid transparent; white-space: nowrap; overflow: hidden;
+            font-size: 0.85rem; margin-bottom: 6px; transition: 0.2s;
+            border: 1px solid transparent; white-space: nowrap;
         }
-
-        .file-item:hover { background: rgba(255,255,255,0.05); }
+        .file-item:hover { background: rgba(255,255,255,0.08); }
         .file-item.active {
-            background: rgba(0, 242, 255, 0.12); color: var(--cyan);
-            border-color: rgba(0, 242, 255, 0.3);
+            background: rgba(0, 242, 255, 0.15); color: var(--cyan);
+            border-color: rgba(0, 242, 255, 0.4);
         }
 
+        /* محرّر الكود وإصلاح التمرير فيه */
         .editor {
-            flex: 1; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
             border-radius: 25px; overflow: hidden; display: flex;
-            flex-direction: column; backdrop-filter: blur(30px);
+            flex-direction: column; backdrop-filter: blur(35px);
         }
 
         .editor-top {
-            padding: 12px 25px; background: rgba(255,255,255,0.03);
+            padding: 12px 25px; background: rgba(255,255,255,0.05);
             border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; font-size: 0.8rem;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        #code-box { flex: 1; overflow: auto; padding: 20px; background: transparent !important; }
+        #file-name { color: var(--cyan); font-weight: bold; font-size: 0.9rem; }
+
+        /* منطقة الكود الفعلية */
+        #code-box {
+            flex: 1;
+            overflow: auto !important; /* يسمح بتمرير الكود الطويل جداً */
+            padding: 20px;
+            margin: 0;
+            background: transparent !important;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            tab-size: 4;
+            white-space: pre !important; /* يحافظ على تنسيق الأسطر */
+        }
 
         #loader {
             position: fixed; top: 0; left: 0; height: 3px; width: 0;
             background: var(--cyan); box-shadow: 0 0 15px var(--cyan);
             z-index: 9999; transition: 0.4s ease;
         }
+
+        @media (max-width: 900px) {
+            main { flex-direction: column; overflow-y: auto; }
+            aside { width: 100%; }
+            .editor { min-height: 500px; }
+        }
     </style>
 </head>
 <body>
+
     <div class="overlay-blur"></div>
     <div id="loader"></div>
 
     <header>
         <div class="brand"><i class="fas fa-bolt"></i> MASTER CLONER</div>
         <div class="input-wrapper">
-            <input type="url" id="target-url" placeholder="أدخل الرابط (https://example.com)...">
-            <button class="btn-glow" id="clone-btn" onclick="runClone()">استخراج الموارد</button>
+            <input type="url" id="target-url" placeholder="أدخل رابط الموقع (مثل: https://google.com)">
+            <button class="btn-glow" id="clone-btn" onclick="runClone()">استنساخ شامل</button>
         </div>
     </header>
 
     <main>
         <aside>
-            <div class="glass-panel" style="height: 100px;">
-                <div class="label"><i class="fas fa-folder-tree"></i> المجلد الرئيسي</div>
-                <div class="file-item"><i class="fas fa-folder" style="color:#ffd700"></i> www_root</div>
+            <div class="glass-panel" style="height: 110px;">
+                <div class="label"><i class="fas fa-sitemap"></i> المسار</div>
+                <div class="file-item active"><i class="fas fa-folder-open" style="color:#ffd700"></i> project_root</div>
             </div>
             <div class="glass-panel" style="flex: 1;">
-                <div class="label"><i class="fas fa-terminal"></i> جميع الموارد المكتشفة</div>
-                <div id="file-list"></div>
+                <div class="label"><i class="fas fa-box-open"></i> الموارد المستخرجة</div>
+                <div id="file-list">
+                    <div style="text-align: center; opacity: 0.4; margin-top: 30px; font-size: 0.8rem;">
+                        انتظار إدخال الرابط...
+                    </div>
+                </div>
             </div>
         </aside>
 
         <section class="editor">
             <div class="editor-top">
-                <span id="file-name" style="color:var(--cyan)">انتظار الطلب...</span>
-                <span style="opacity:0.4">SOURCE VIEWER</span>
+                <span id="file-name">جاهز للعمل</span>
+                <div style="display: flex; gap: 15px; opacity: 0.6; font-size: 0.8rem;">
+                    <span><i class="fas fa-circle" style="color: #ff5f56"></i></span>
+                    <span><i class="fas fa-circle" style="color: #ffbd2e"></i></span>
+                    <span><i class="fas fa-circle" style="color: #27c93f"></i></span>
+                </div>
             </div>
             <pre><code id="code-box" class="language-html"></code></pre>
         </section>
@@ -159,11 +205,11 @@
             const btn = document.getElementById('clone-btn');
             const loader = document.getElementById('loader');
 
-            if (!url) return alert("برجاء إدخال رابط صحيح");
+            if (!url) return alert("برجاء إدخال رابط صحيح يبدأ بـ http أو https");
 
             btn.disabled = true;
             btn.innerText = "جاري التحليل...";
-            loader.style.width = "40%";
+            loader.style.width = "30%";
 
             try {
                 const response = await fetch('/api', {
@@ -172,16 +218,28 @@
                     body: JSON.stringify({ url: url })
                 });
 
-                if (!response.ok) throw new Error("فشل السيرفر في الاستجابة");
+                loader.style.width = "70%";
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "حدث خطأ غير معروف");
+                }
 
                 const data = await response.json();
                 loader.style.width = "100%";
-                renderSidebar(data.files);
+                
+                if (data.files && data.files.length > 0) {
+                    renderSidebar(data.files);
+                } else {
+                    alert("لم يتم العثور على ملفات برمجية في هذا الرابط");
+                }
+
             } catch (err) {
-                alert("خطأ: " + err.message);
+                alert("فشل الاستنساخ: " + err.message);
+                loader.style.width = "0%";
             } finally {
                 btn.disabled = false;
-                btn.innerText = "استخراج الموارد";
+                btn.innerText = "استنساخ شامل";
                 setTimeout(() => loader.style.width = "0%", 1000);
             }
         }
@@ -194,30 +252,43 @@
                 const item = document.createElement('div');
                 item.className = 'file-item';
                 
-                let icon = 'fa-file-code'; let color = '#00f2ff';
-                if(file.name.endsWith('.html')) { icon = 'fa-html5'; color = '#e34c26'; }
-                else if(file.name.endsWith('.css')) { icon = 'fa-css3-alt'; color = '#264de4'; }
-                else if(file.name.endsWith('.js')) { icon = 'fa-js'; color = '#f7df1e'; }
-                else if(file.name.includes('asset')) { icon = 'fa-image'; color = '#4caf50'; }
-                else if(file.name.includes('video')) { icon = 'fa-video'; color = '#ff5722'; }
+                // تحديد الأيقونة واللون بناءً على نوع الملف
+                let icon = 'fa-file-code'; 
+                let color = '#fff';
+                
+                if (file.name.endsWith('.html')) { icon = 'fa-html5'; color = '#e34c26'; }
+                else if (file.name.endsWith('.css')) { icon = 'fa-css3-alt'; color = '#264de4'; }
+                else if (file.name.endsWith('.js')) { icon = 'fa-js'; color = '#f7df1e'; }
+                else if (file.name.includes('image') || file.name.includes('asset')) { icon = 'fa-image'; color = '#4caf50'; }
+                else if (file.name.includes('video')) { icon = 'fa-video'; color = '#ff5722'; }
 
                 item.innerHTML = `<i class="fab ${icon} fas" style="color: ${color}"></i> ${file.name}`;
+                
                 item.onclick = () => {
                     document.querySelectorAll('.file-item').forEach(i => i.classList.remove('active'));
                     item.classList.add('active');
                     updateEditor(file);
                 };
+                
                 list.appendChild(item);
-                if (index === 0) item.click();
+                if (index === 0) item.click(); // عرض أول ملف تلقائياً
             });
         }
 
         function updateEditor(file) {
             const box = document.getElementById('code-box');
-            document.getElementById('file-name').innerText = file.name;
+            document.getElementById('file-name').innerText = `Viewing: ${file.name}`;
+            
+            // تحديد لغة التظليل
             const ext = file.name.split('.').pop();
-            box.className = `language-${ext === 'js' ? 'javascript' : (ext === 'css' ? 'css' : 'html')}`;
+            let lang = 'html';
+            if (ext === 'js') lang = 'javascript';
+            if (ext === 'css') lang = 'css';
+
+            box.className = `language-${lang}`;
             box.textContent = file.content;
+            
+            // إعادة تفعيل Prism لتلوين الكود الجديد
             Prism.highlightAll();
         }
     </script>
