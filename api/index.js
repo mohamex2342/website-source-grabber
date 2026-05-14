@@ -11,59 +11,73 @@ module.exports = async (req, res) => {
     if (req.method === 'POST') {
         try {
             const { url } = req.body;
-            const baseUrl = new URL(url).origin;
+            const urlObj = new URL(url);
+            const domain = urlObj.hostname;
+            const baseUrl = urlObj.origin;
+
             const response = await axios.get(url, { timeout: 10000 });
-            const html = response.data;
-            const $ = cheerio.load(html);
+            const mainHtml = response.data;
+            const $ = cheerio.load(mainHtml);
             
-            const files = [{ name: 'index.html', content: html }];
+            const files = [{ name: 'index.html', content: mainHtml }];
+            const pagesToFetch = [];
 
-            // دالة لتحويل الروابط النسبية إلى روابط كاملة
-            const getFullUrl = (path) => {
-                if (!path) return null;
-                if (path.startsWith('http')) return path;
-                return new URL(path, url).href;
-            };
+            // 1. اكتشاف الصفحات الداخلية (الروابط)
+            $('a').each((i, el) => {
+                let href = $(el).attr('href');
+                if (!href) return;
 
-            // سحب محتوى ملفات CSS
-            const cssPromises = $('link[rel="stylesheet"]').map(async (i, el) => {
-                const href = getFullUrl($(el).attr('href'));
-                if (href) {
-                    try {
-                        const cssRes = await axios.get(href, { timeout: 5000 });
-                        files.push({ name: `style-${i+1}.css`, content: cssRes.data });
-                    } catch (e) {
-                        files.push({ name: `style-${i+1}.css`, content: `/* Failed to fetch: ${href} */` });
+                // تحويل الرابط النسبي لكامل
+                if (href.startsWith('/')) href = baseUrl + href;
+                
+                try {
+                    const hrefObj = new URL(href);
+                    // التأكد أن الرابط يتبع نفس الدومين وليس موقعاً خارجياً
+                    if (hrefObj.hostname === domain && !pagesToFetch.includes(href) && href !== url) {
+                        if (pagesToFetch.length < 8) { // تحديد عدد الصفحات بـ 8 لتجنب البطء
+                            pagesToFetch.push(href);
+                        }
                     }
-                }
-            }).get();
-
-            // سحب محتوى ملفات JS
-            const jsPromises = $('script[src]').map(async (i, el) => {
-                const src = getFullUrl($(el).attr('src'));
-                if (src) {
-                    try {
-                        const jsRes = await axios.get(src, { timeout: 5000 });
-                        files.push({ name: `script-${i+1}.js`, content: jsRes.data });
-                    } catch (e) {
-                        files.push({ name: `script-${i+1}.js`, content: `// Failed to fetch: ${src}` });
-                    }
-                }
-            }).get();
-
-            // انتظار انتهاء جلب جميع الملفات
-            await Promise.all([...cssPromises, ...jsPromises]);
-
-            // الصور والفيديوهات (تبقى روابط لأنها ملفات ثنائية لا تظهر ككود)
-            $('img').each((i, el) => {
-                const src = getFullUrl($(el).attr('src'));
-                if (src) files.push({ name: `image-${i+1}.png`, content: `Direct URL: ${src}` });
+                } catch (e) {}
             });
+
+            // 2. جلب محتوى الصفحات المكتشفة
+            const pagePromises = pagesToFetch.map(async (pageUrl) => {
+                try {
+                    const pRes = await axios.get(pageUrl, { timeout: 5000 });
+                    const name = pageUrl.split('/').filter(Boolean).pop() || 'page';
+                    files.push({ name: `${name}.html`, content: pRes.data });
+                } catch (e) {}
+            });
+
+            // 3. جلب ملفات CSS و JS (كما فعلنا سابقاً)
+            const assetPromises = [];
+            $('link[rel="stylesheet"]').each((i, el) => {
+                let href = $(el).attr('href');
+                if (href) assetPromises.push(fetchAsset(href, url, 'style', files));
+            });
+            $('script[src]').each((i, el) => {
+                let src = $(el).attr('src');
+                if (src) assetPromises.push(fetchAsset(src, url, 'script', files));
+            });
+
+            await Promise.all([...pagePromises, ...assetPromises]);
 
             return res.status(200).json({ files });
         } catch (error) {
-            return res.status(500).json({ error: "خطأ في سحب وتحليل الموقع" });
+            return res.status(500).json({ error: "فشل في سحب الموقع ومحتوياته" });
         }
     }
     return res.status(405).end();
 };
+
+// دالة مساعدة لجلب محتوى الملفات البرمجية
+async function fetchAsset(path, baseUrl, type, filesArray) {
+    try {
+        const fullUrl = path.startsWith('http') ? path : new URL(path, baseUrl).href;
+        const res = await axios.get(fullUrl, { timeout: 5000 });
+        const ext = type === 'style' ? 'css' : 'js';
+        const name = path.split('/').pop().split('?')[0] || `${type}-${Math.random().toString(36).substr(2, 5)}.${ext}`;
+        filesArray.push({ name: name.endsWith(`.${ext}`) ? name : `${name}.${ext}`, content: res.data });
+    } catch (e) {}
+}
