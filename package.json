@@ -1,13 +1,25 @@
 {
-  "name": "master-cloner-api",
-  "version": "1.0.0",
-  "dependencies": {
-    "axios": "^1.6.0"
-  }
-}
-{
+  "name": "master-cloner-pro",
+  "version": "1.1.0",
+  "description": "منصة احترافية لاستنساخ وتحليل موارد المواقع الإلكترونية",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js",
+    "dev": "vercel dev"
+  },
+  "keywords": [
+    "cloner",
+    "scraper",
+    "assets-extractor",
+    "vercel-serverless"
+  ],
+  "author": "Master Cloner Team",
+  "license": "MIT",
   "dependencies": {
     "axios": "^1.6.0",
     "cheerio": "^1.0.0-rc.12"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
