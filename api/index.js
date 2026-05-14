@@ -10,56 +10,74 @@ module.exports = async (req, res) => {
 
     if (req.method === 'POST') {
         try {
-            const { url, getFullContent } = req.body;
+            const { url } = req.body;
+            const urlObj = new URL(url);
+            const domain = urlObj.hostname;
+            const baseUrl = urlObj.origin;
 
-            // إذا كان الطلب لجلب محتوى ملف واحد محدد
-            if (getFullContent) {
-                const fileRes = await axios.get(getFullContent, { timeout: 5000 });
-                return res.status(200).json({ content: fileRes.data });
-            }
+            const response = await axios.get(url, { timeout: 10000 });
+            const mainHtml = response.data;
+            const $ = cheerio.load(mainHtml);
+            
+            const files = [{ name: 'index.html', content: mainHtml }];
+            const pagesToFetch = [];
 
-            // الطلب الأساسي: تحليل الموقع
-            const response = await axios.get(url, { timeout: 8000 });
-            const html = response.data;
-            const $ = cheerio.load(html);
-            const baseUrl = new URL(url).origin;
-
-            const files = [{ name: 'index.html', content: html, type: 'html' }];
-
-            // استخراج الصفحات الداخلية (الروابط)
-            $('a[href]').each((i, el) => {
+            // 1. اكتشاف الصفحات الداخلية (الروابط)
+            $('a').each((i, el) => {
                 let href = $(el).attr('href');
-                if (href.startsWith('/') || href.startsWith(baseUrl)) {
-                    const fullPath = new URL(href, url).href;
-                    const name = href.split('/').filter(Boolean).pop() || 'page';
-                    if (!files.find(f => f.url === fullPath)) {
-                        files.push({ name: `${name}.html`, url: fullPath, type: 'html', needsFetch: true });
+                if (!href) return;
+
+                // تحويل الرابط النسبي لكامل
+                if (href.startsWith('/')) href = baseUrl + href;
+                
+                try {
+                    const hrefObj = new URL(href);
+                    // التأكد أن الرابط يتبع نفس الدومين وليس موقعاً خارجياً
+                    if (hrefObj.hostname === domain && !pagesToFetch.includes(href) && href !== url) {
+                        if (pagesToFetch.length < 8) { // تحديد عدد الصفحات بـ 8 لتجنب البطء
+                            pagesToFetch.push(href);
+                        }
                     }
-                }
+                } catch (e) {}
             });
 
-            // استخراج CSS
+            // 2. جلب محتوى الصفحات المكتشفة
+            const pagePromises = pagesToFetch.map(async (pageUrl) => {
+                try {
+                    const pRes = await axios.get(pageUrl, { timeout: 5000 });
+                    const name = pageUrl.split('/').filter(Boolean).pop() || 'page';
+                    files.push({ name: `${name}.html`, content: pRes.data });
+                } catch (e) {}
+            });
+
+            // 3. جلب ملفات CSS و JS (كما فعلنا سابقاً)
+            const assetPromises = [];
             $('link[rel="stylesheet"]').each((i, el) => {
-                const href = $(el).attr('href');
-                if (href) {
-                    const fullPath = new URL(href, url).href;
-                    files.push({ name: `style-${i+1}.css`, url: fullPath, type: 'css', needsFetch: true });
-                }
+                let href = $(el).attr('href');
+                if (href) assetPromises.push(fetchAsset(href, url, 'style', files));
             });
-
-            // استخراج JS
             $('script[src]').each((i, el) => {
-                const src = $(el).attr('src');
-                if (src) {
-                    const fullPath = new URL(src, url).href;
-                    files.push({ name: `script-${i+1}.js`, url: fullPath, type: 'js', needsFetch: true });
-                }
+                let src = $(el).attr('src');
+                if (src) assetPromises.push(fetchAsset(src, url, 'script', files));
             });
 
-            return res.status(200).json({ files: files.slice(0, 30) }); // جلب أول 30 مورد لضمان السرعة
+            await Promise.all([...pagePromises, ...assetPromises]);
+
+            return res.status(200).json({ files });
         } catch (error) {
-            return res.status(500).json({ error: "فشل السيرفر في الوصول للموقع" });
+            return res.status(500).json({ error: "فشل في سحب الموقع ومحتوياته" });
         }
     }
     return res.status(405).end();
 };
+
+// دالة مساعدة لجلب محتوى الملفات البرمجية
+async function fetchAsset(path, baseUrl, type, filesArray) {
+    try {
+        const fullUrl = path.startsWith('http') ? path : new URL(path, baseUrl).href;
+        const res = await axios.get(fullUrl, { timeout: 5000 });
+        const ext = type === 'style' ? 'css' : 'js';
+        const name = path.split('/').pop().split('?')[0] || `${type}-${Math.random().toString(36).substr(2, 5)}.${ext}`;
+        filesArray.push({ name: name.endsWith(`.${ext}`) ? name : `${name}.${ext}`, content: res.data });
+    } catch (e) {}
+}
