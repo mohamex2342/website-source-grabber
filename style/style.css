@@ -19,10 +19,10 @@ body {
     background-size: cover;
     color: #e0e6ed;
     font-family: 'Courier New', Courier, monospace; /* خط حاد مستوحى من محطات الفضاء */
-    min-height: 100vh; /* تم التعديل لمنع قطع الشاشة في الموبايل */
+    min-height: 100vh; /* منع قطع الشاشة في الموبايل */
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* منع التمرير الأفقي تماماً وحل مشكلة الفراغات الجانبية */
+    overflow-x: hidden; /* منع التمرير الأفقي للموقع بالكامل والقضاء على الفراغات الجانبية */
     perspective: 1000px; /* يعطي عمق ثلاثي الأبعاد طفيف للواجهة */
 }
 
@@ -35,7 +35,7 @@ body {
 }
 
 /* تخصيص شريط التمرير النيوني الدقيق */
-::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: rgba(0, 242, 255, 0.02); }
 ::-webkit-scrollbar-thumb { 
     background: var(--purple); 
@@ -43,9 +43,9 @@ body {
     box-shadow: 0 0 12px var(--purple); 
 }
 
-/* الهيدر العلوي كأنه لوحة تحكم سفينة فضائية */
+/* الهيدر العلوي */
 header {
-    padding: 15px 20px; /* تقليل البادينج ليناسب الشاشات الصغيرة */
+    padding: 15px 20px; 
     background: var(--glass);
     border-bottom: 2px solid var(--cyan);
     box-shadow: 0 5px 30px rgba(0, 242, 255, 0.15), inset 0 0 20px rgba(0, 242, 255, 0.05);
@@ -60,7 +60,7 @@ header {
 
 .brand {
     font-weight: 900; 
-    font-size: 1.3rem; /* تصغير حجم الخط قليلاً ليناسب الهواتف */
+    font-size: 1.3rem; 
     background: linear-gradient(90deg, #fff, var(--cyan), var(--purple));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     display: flex; align-items: center; gap: 10px;
@@ -70,7 +70,7 @@ header {
 
 .input-wrapper { 
     flex: 1; 
-    min-width: 250px; /* تضمن عدم انضغاط صندوق الإدخال */
+    min-width: 250px; 
     display: flex; 
     gap: 10px; 
 }
@@ -78,7 +78,7 @@ header {
 input {
     flex: 1; background: rgba(0, 5, 15, 0.75); 
     border: 1px solid var(--border);
-    padding: 10px 20px; border-radius: 30px; /* زوايا دائرية ناعمة جداً */
+    padding: 10px 20px; border-radius: 30px; 
     color: #fff; outline: none; transition: 0.4s ease; font-size: 13px;
     letter-spacing: 1px;
     box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.1);
@@ -95,13 +95,13 @@ input:focus {
     background: transparent;
     border: 1px solid var(--purple); 
     color: #fff; 
-    padding: 0 20px; /* تقليل الحشو ليناسب المساحات الضيقة */
+    padding: 0 20px; 
     border-radius: 30px;
     font-weight: bold; cursor: pointer; transition: 0.4s;
     letter-spacing: 1px;
     box-shadow: 0 0 15px rgba(188, 19, 254, 0.3), inset 0 0 15px rgba(188, 19, 254, 0.2);
     text-transform: uppercase;
-    white-space: nowrap; /* منع انقسام نص الزر على سطرين */
+    white-space: nowrap; 
 }
 .btn-glow:hover { 
     background: var(--purple);
@@ -113,10 +113,10 @@ input:focus {
 main {
     display: flex; 
     flex: 1; 
-    padding: 15px; /* تقليل البادينج في الموبايل */
+    padding: 15px; 
     gap: 20px;
     overflow: hidden;
-    transform: rotateX(1deg); /* إمالة خفيفة جداً لمحاكاة الشاشات المجسمة */
+    transform: rotateX(1deg); 
 }
 
 aside { 
@@ -124,7 +124,7 @@ aside {
     display: flex; 
     flex-direction: column; 
     gap: 20px; 
-    flex-shrink: 0; /* يمنع انكماش القائمة الجانبية في الشاشات المتوسطة */
+    flex-shrink: 0; 
 }
 
 /* الألواح الزجاجية المستقبلية */
@@ -150,7 +150,7 @@ aside {
     flex: 1; overflow-y: auto; padding-right: 8px;
 }
 
-/* عناصر الملفات كأنها تدفقات بيانات (Data Streams) */
+/* عناصر الملفات كأنها تدفقات بيانات */
 .file-item {
     padding: 12px 15px; border-radius: 14px; cursor: pointer;
     display: flex; align-items: center; gap: 12px;
@@ -170,7 +170,7 @@ aside {
     text-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
 }
 
-/* محرر الكود الرئيسي (الشاشة المركزية) */
+/* محرر الكود الرئيسي */
 .editor {
     flex: 1; background: rgba(2, 5, 12, 0.7); 
     border: 2px solid var(--purple);
@@ -191,10 +191,10 @@ aside {
     text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
 }
 
-/* منطقة الأكواد المشعة المتوهجة (تم إصلاح تداخل وعشوائية النصوص البرمجية) */
+/* منطقة الأكواد (إصلاح شامل لترتيب الحروف والتوافق مع الـ HTML) */
 #code-box {
     flex: 1; 
-    overflow-x: auto !important; /* السماح بالتمرير الأفقي فقط عند الحاجة لعدم تدمير العناصر */
+    overflow-x: auto !important; /* تفعيل التمرير الأفقي الداخلي عند وجود سطور طويلة جداً */
     overflow-y: auto !important; 
     padding: 20px; 
     margin: 0;
@@ -204,17 +204,17 @@ aside {
     line-height: 1.6; 
     tab-size: 4;
     
-    /* حلول مشكلة اتجاه النصوص وتداخل الروابط */
-    direction: ltr !important;        /* إجبار الكود البرمجي على البدء من اليسار */
-    text-align: left !important;      /* محاذاة النص لليسار */
-    white-space: pre-wrap !important; /* التفاف تلقائي للأسطر البرمجية الطويلة عند حواف الشاشة البنفسجية */
-    word-break: break-all !important;   /* كسر الروابط الطويلة جداً لكي لا تخرج عن الإطار */
+    /* ضبط اتجاه المحرر الاحترافي */
+    direction: ltr !important;        /* قراءة من اليسار لليمين دائماً للأكواد */
+    text-align: left !important;      /* محاذاة كل السطور لليسار */
+    white-space: pre !important;       /* الحفاظ على بنية السطور البرمجية بدون تقطيع غريب للتاغات والعربية */
+    word-break: normal !important;    /* إلغاء القص العشوائي للحروف في وسط الكلمة */
     
-    color: var(--matrix-green); /* اللون الأخضر السيبراني للأكواد */
+    color: var(--matrix-green); 
     text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
 }
 
-/* شريط التنزيل العلوي (النبض النيوني) */
+/* شريط التنزيل العلوي */
 #loader {
     position: fixed; top: 0; left: 0; height: 4px; width: 100%; 
     background: linear-gradient(90deg, transparent, var(--cyan), transparent); 
@@ -222,13 +222,13 @@ aside {
     z-index: 9999;
 }
 
-/* تعديلات شاشات الموبايل والتابلت المتطورة والتجاوب الكامل */
+/* التحكم الكامل والمثالي عند فتح الموقع من الموبايل */
 @media (max-width: 900px) {
     body {
-        overflow-y: auto; /* السماح بالتمرير العمودي للموقع بالكامل في الموبايل لعدم قطع العناصر */
+        overflow-y: auto; /* السماح بالتمرير الطولي للموقع بسلاسة */
     }
     header {
-        flex-direction: column; /* ترتيب عناصر الهيدر عمودياً فوق بعضها في الموبايل */
+        flex-direction: column; 
         align-items: stretch;
         text-align: center;
     }
@@ -236,13 +236,13 @@ aside {
         justify-content: center;
     }
     main { 
-        flex-direction: column; /* جعل القائمة الجانبية فوق المحرر في الشاشات الصغيرة */
-        overflow: visible; /* إلغاء قفل التمرير لمنع المشاكل */
+        flex-direction: column; 
+        overflow: visible; 
     }
     aside { 
         width: 100%; 
     }
     .editor { 
-        min-height: 450px; 
+        min-height: 480px; 
     }
 }
