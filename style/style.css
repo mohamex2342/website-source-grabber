@@ -2,8 +2,8 @@
     --cyan: #00f2ff;
     --purple: #bc13fe;
     --matrix-green: #39ff14;
-    --glass: rgba(10, 25, 50, 0.25); 
-    --border: rgba(0, 242, 255, 0.25); 
+    --glass: rgba(10, 25, 50, 0.25); /* خلفية زجاجية داكنة مائلة للزرقة الفضائية */
+    --border: rgba(0, 242, 255, 0.25); /* حدود متوهجة افتراضياً */
     --bg-black: #020205;
     --glow-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
 }
@@ -18,12 +18,12 @@ body {
     background: var(--bg-black) url('https://w0.peakpx.com/wallpaper/593/631/HD-wallpaper-blue-purple-nebula-stars-background-cosmos-nebula.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #e0e6ed;
-    font-family: 'Courier New', Courier, monospace; 
+    font-family: 'Courier New', Courier, monospace; /* خط حاد مستوحى من محطات الفضاء */
     min-height: 100vh; /* تم التعديل لمنع قطع الشاشة في الموبايل */
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* منع التمرير الأفقي تماماً */
-    perspective: 1000px; 
+    overflow-x: hidden; /* منع التمرير الأفقي تماماً وحل مشكلة الفراغات الجانبية */
+    perspective: 1000px; /* يعطي عمق ثلاثي الأبعاد طفيف للواجهة */
 }
 
 /* طبقة النبض الضوئي فوق الخلفية لتأثير السديم */
@@ -43,9 +43,9 @@ body {
     box-shadow: 0 0 12px var(--purple); 
 }
 
-/* الهيدر العلوي */
+/* الهيدر العلوي كأنه لوحة تحكم سفينة فضائية */
 header {
-    padding: 15px 20px; /* تقليل البادينج ليناسب الموبايل */
+    padding: 15px 20px; /* تقليل البادينج ليناسب الشاشات الصغيرة */
     background: var(--glass);
     border-bottom: 2px solid var(--cyan);
     box-shadow: 0 5px 30px rgba(0, 242, 255, 0.15), inset 0 0 20px rgba(0, 242, 255, 0.05);
@@ -78,7 +78,7 @@ header {
 input {
     flex: 1; background: rgba(0, 5, 15, 0.75); 
     border: 1px solid var(--border);
-    padding: 10px 20px; border-radius: 30px; 
+    padding: 10px 20px; border-radius: 30px; /* زوايا دائرية ناعمة جداً */
     color: #fff; outline: none; transition: 0.4s ease; font-size: 13px;
     letter-spacing: 1px;
     box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.1);
@@ -116,6 +116,7 @@ main {
     padding: 15px; /* تقليل البادينج في الموبايل */
     gap: 20px;
     overflow: hidden;
+    transform: rotateX(1deg); /* إمالة خفيفة جداً لمحاكاة الشاشات المجسمة */
 }
 
 aside { 
@@ -149,7 +150,7 @@ aside {
     flex: 1; overflow-y: auto; padding-right: 8px;
 }
 
-/* عناصر الملفات */
+/* عناصر الملفات كأنها تدفقات بيانات (Data Streams) */
 .file-item {
     padding: 12px 15px; border-radius: 14px; cursor: pointer;
     display: flex; align-items: center; gap: 12px;
@@ -169,7 +170,7 @@ aside {
     text-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
 }
 
-/* محرر الكود الرئيسي */
+/* محرر الكود الرئيسي (الشاشة المركزية) */
 .editor {
     flex: 1; background: rgba(2, 5, 12, 0.7); 
     border: 2px solid var(--purple);
@@ -190,18 +191,30 @@ aside {
     text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
 }
 
-/* منطقة الأكواد */
+/* منطقة الأكواد المشعة المتوهجة (تم إصلاح تداخل وعشوائية النصوص البرمجية) */
 #code-box {
-    flex: 1; overflow: auto !important; padding: 20px; margin: 0;
+    flex: 1; 
+    overflow-x: auto !important; /* السماح بالتمرير الأفقي فقط عند الحاجة لعدم تدمير العناصر */
+    overflow-y: auto !important; 
+    padding: 20px; 
+    margin: 0;
     background: transparent !important;
     font-family: 'Fira Code', 'Consolas', monospace;
-    font-size: 14px; line-height: 1.6; tab-size: 4;
-    white-space: pre !important;
-    color: var(--matrix-green); 
+    font-size: 14px; 
+    line-height: 1.6; 
+    tab-size: 4;
+    
+    /* حلول مشكلة اتجاه النصوص وتداخل الروابط */
+    direction: ltr !important;        /* إجبار الكود البرمجي على البدء من اليسار */
+    text-align: left !important;      /* محاذاة النص لليسار */
+    white-space: pre-wrap !important; /* التفاف تلقائي للأسطر البرمجية الطويلة عند حواف الشاشة البنفسجية */
+    word-break: break-all !important;   /* كسر الروابط الطويلة جداً لكي لا تخرج عن الإطار */
+    
+    color: var(--matrix-green); /* اللون الأخضر السيبراني للأكواد */
     text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
 }
 
-/* شريط التنزيل العلوي */
+/* شريط التنزيل العلوي (النبض النيوني) */
 #loader {
     position: fixed; top: 0; left: 0; height: 4px; width: 100%; 
     background: linear-gradient(90deg, transparent, var(--cyan), transparent); 
@@ -209,13 +222,13 @@ aside {
     z-index: 9999;
 }
 
-/* تعديلات شاشات الموبايل والتابلت المتطورة */
+/* تعديلات شاشات الموبايل والتابلت المتطورة والتجاوب الكامل */
 @media (max-width: 900px) {
     body {
-        overflow-y: auto; /* السماح بالتمرير العمودي للموقع بالكامل في الموبايل */
+        overflow-y: auto; /* السماح بالتمرير العمودي للموقع بالكامل في الموبايل لعدم قطع العناصر */
     }
     header {
-        flex-direction: column; /* ترتيب عناصر الهيدر عمودياً */
+        flex-direction: column; /* ترتيب عناصر الهيدر عمودياً فوق بعضها في الموبايل */
         align-items: stretch;
         text-align: center;
     }
@@ -223,8 +236,8 @@ aside {
         justify-content: center;
     }
     main { 
-        flex-direction: column; 
-        overflow: visible; /* إلغاء قفل التمرير */
+        flex-direction: column; /* جعل القائمة الجانبية فوق المحرر في الشاشات الصغيرة */
+        overflow: visible; /* إلغاء قفل التمرير لمنع المشاكل */
     }
     aside { 
         width: 100%; 
