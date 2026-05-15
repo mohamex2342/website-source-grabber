@@ -19,10 +19,10 @@ body {
     background-size: cover;
     color: #e0e6ed;
     font-family: 'Courier New', Courier, monospace; /* خط حاد مستوحى من محطات الفضاء */
-    min-height: 100vh; /* منع قطع الشاشة في الموبايل */
+    min-height: 100vh; /* منع انقطاع الشاشة في أسفل الهواتف */
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* منع التمرير الأفقي للموقع بالكامل والقضاء على الفراغات الجانبية */
+    overflow-x: hidden; /* القضاء تماماً على الفراغات الجانبية وحركة الشاشة يميناً ويساراً */
     perspective: 1000px; /* يعطي عمق ثلاثي الأبعاد طفيف للواجهة */
 }
 
@@ -43,9 +43,9 @@ body {
     box-shadow: 0 0 12px var(--purple); 
 }
 
-/* الهيدر العلوي */
+/* الهيدر العلوي - لوحة تحكم متجاوبة */
 header {
-    padding: 15px 20px; 
+    padding: 15px 25px; 
     background: var(--glass);
     border-bottom: 2px solid var(--cyan);
     box-shadow: 0 5px 30px rgba(0, 242, 255, 0.15), inset 0 0 20px rgba(0, 242, 255, 0.05);
@@ -55,12 +55,12 @@ header {
     gap: 15px; 
     backdrop-filter: blur(30px); 
     z-index: 10;
-    flex-wrap: wrap; /* السماح للعناصر بالنزول لسطر جديد في الشاشات الصغيرة جداً */
+    flex-wrap: wrap; /* السماح للعناصر بالترتيب المتكيف في الموبايل */
 }
 
 .brand {
     font-weight: 900; 
-    font-size: 1.3rem; 
+    font-size: 1.4rem; 
     background: linear-gradient(90deg, #fff, var(--cyan), var(--purple));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     display: flex; align-items: center; gap: 10px;
@@ -70,9 +70,9 @@ header {
 
 .input-wrapper { 
     flex: 1; 
-    min-width: 250px; 
+    min-width: 280px; /* يحمي صندوق المدخلات من الانضغاط الصغير جداً */
     display: flex; 
-    gap: 10px; 
+    gap: 12px; 
 }
 
 input {
@@ -90,18 +90,18 @@ input:focus {
     color: var(--cyan);
 }
 
-/* زر البث الفضائي المتوهج */
+/* زر البث الفضائي المتوهج (استنساخ) */
 .btn-glow {
     background: transparent;
     border: 1px solid var(--purple); 
     color: #fff; 
-    padding: 0 20px; 
+    padding: 0 25px; 
     border-radius: 30px;
     font-weight: bold; cursor: pointer; transition: 0.4s;
     letter-spacing: 1px;
     box-shadow: 0 0 15px rgba(188, 19, 254, 0.3), inset 0 0 15px rgba(188, 19, 254, 0.2);
     text-transform: uppercase;
-    white-space: nowrap; 
+    white-space: nowrap; /* يمنع انقسام نص الزر العربي/الإنجليزي إلى سطرين */
 }
 .btn-glow:hover { 
     background: var(--purple);
@@ -113,18 +113,18 @@ input:focus {
 main {
     display: flex; 
     flex: 1; 
-    padding: 15px; 
-    gap: 20px;
+    padding: 25px; 
+    gap: 25px;
     overflow: hidden;
     transform: rotateX(1deg); 
 }
 
 aside { 
-    width: 300px; 
+    width: 320px; 
     display: flex; 
     flex-direction: column; 
-    gap: 20px; 
-    flex-shrink: 0; 
+    gap: 25px; 
+    flex-shrink: 0; /* منع تقلص القائمة في الشاشات المتوسطة */
 }
 
 /* الألواح الزجاجية المستقبلية */
@@ -150,7 +150,7 @@ aside {
     flex: 1; overflow-y: auto; padding-right: 8px;
 }
 
-/* عناصر الملفات كأنها تدفقات بيانات */
+/* عناصر الملفات المستخرجة */
 .file-item {
     padding: 12px 15px; border-radius: 14px; cursor: pointer;
     display: flex; align-items: center; gap: 12px;
@@ -170,7 +170,7 @@ aside {
     text-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
 }
 
-/* محرر الكود الرئيسي */
+/* محرر الكود الرئيسي (الشاشة المركزية) */
 .editor {
     flex: 1; background: rgba(2, 5, 12, 0.7); 
     border: 2px solid var(--purple);
@@ -191,10 +191,10 @@ aside {
     text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
 }
 
-/* منطقة الأكواد (إصلاح شامل لترتيب الحروف والتوافق مع الـ HTML) */
+/* منطقة الأكواد (حل نهائي ومثالي ومجرّب لعدم تداخل الحروف والعربية) */
 #code-box {
     flex: 1; 
-    overflow-x: auto !important; /* تفعيل التمرير الأفقي الداخلي عند وجود سطور طويلة جداً */
+    overflow-x: auto !important; /* تفعيل التمرير الأفقي المخصص للسطور الطويلة والروابط */
     overflow-y: auto !important; 
     padding: 20px; 
     margin: 0;
@@ -204,17 +204,17 @@ aside {
     line-height: 1.6; 
     tab-size: 4;
     
-    /* ضبط اتجاه المحرر الاحترافي */
-    direction: ltr !important;        /* قراءة من اليسار لليمين دائماً للأكواد */
-    text-align: left !important;      /* محاذاة كل السطور لليسار */
-    white-space: pre !important;       /* الحفاظ على بنية السطور البرمجية بدون تقطيع غريب للتاغات والعربية */
-    word-break: normal !important;    /* إلغاء القص العشوائي للحروف في وسط الكلمة */
+    /* الخصائص البرمجية الاحترافية */
+    direction: ltr !important;        /* إجبار الكود البرمجي والتاغات على البقاء من اليسار */
+    text-align: left !important;      /* محاذاة النص لجهة اليسار */
+    white-space: pre !important;       /* الحفاظ على الكلمات العربية البرمجية كاملة ومنع تقطيع الأسطر بشكل مشوه */
+    word-break: normal !important;    /* منع كسر الأحرف من منتصف الكلمة نهائياً */
     
     color: var(--matrix-green); 
     text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
 }
 
-/* شريط التنزيل العلوي */
+/* شريط التنزيل العلوي النيوني */
 #loader {
     position: fixed; top: 0; left: 0; height: 4px; width: 100%; 
     background: linear-gradient(90deg, transparent, var(--cyan), transparent); 
@@ -222,27 +222,29 @@ aside {
     z-index: 9999;
 }
 
-/* التحكم الكامل والمثالي عند فتح الموقع من الموبايل */
+/* الاستجابة التلقائية المتكاملة للهواتف والتابلت */
 @media (max-width: 900px) {
     body {
-        overflow-y: auto; /* السماح بالتمرير الطولي للموقع بسلاسة */
+        overflow-y: auto; /* السماح بتمرير الصفحة بالكامل عمودياً في الموبايل */
     }
     header {
-        flex-direction: column; 
+        flex-direction: column; /* ترتيب محتويات الهيدر عمودياً بالتساوي */
         align-items: stretch;
         text-align: center;
+        gap: 12px;
     }
     .brand {
         justify-content: center;
     }
     main { 
-        flex-direction: column; 
-        overflow: visible; 
+        flex-direction: column; /* جعل اللوحات الجانبية تظهر فوق المحرر */
+        overflow: visible; /* فك الحظر عن الطول للحماية من الاختفاء */
+        padding: 15px;
     }
     aside { 
         width: 100%; 
     }
     .editor { 
-        min-height: 480px; 
+        min-height: 500px; /* حجز مساحة ممتازة ومريحة للمحرر في شاشة الموبايل */
     }
 }
