@@ -1,13 +1,15 @@
+/* 1. تعريف المتغيرات والسمات النيونية/الكونية */
 :root {
     --cyan: #00f2ff;
     --purple: #bc13fe;
     --matrix-green: #39ff14;
-    --glass: rgba(10, 25, 50, 0.25); /* خلفية زجاجية داكنة مائلة للزرقة الفضائية */
+    --glass: rgba(10, 25, 50, 0.25); /* خلفية زجاجية داكنة */
     --border: rgba(0, 242, 255, 0.25); /* حدود متوهجة افتراضياً */
     --bg-black: #020205;
-    --glow-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+    --text-main: #e0e6ed;
 }
 
+/* 2. الإعدادات العامة للصفحة */
 * { 
     box-sizing: border-box; 
     margin: 0; 
@@ -17,13 +19,13 @@
 body {
     background: var(--bg-black) url('https://w0.peakpx.com/wallpaper/593/631/HD-wallpaper-blue-purple-nebula-stars-background-cosmos-nebula.jpg') no-repeat center center fixed;
     background-size: cover;
-    color: #e0e6ed;
+    color: var(--text-main);
     font-family: 'Courier New', Courier, monospace; /* خط حاد مستوحى من محطات الفضاء */
     height: 100vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    perspective: 1000px; /* يعطي عمق ثلاثي الأبعاد طفيف للواجهة */
+    perspective: 1000px; /* عمق ثلاثي الأبعاد طفيف للواجهة */
 }
 
 /* طبقة النبض الضوئي فوق الخلفية لتأثير السديم */
@@ -34,7 +36,7 @@ body {
     z-index: -1;
 }
 
-/* تخصيص شريط التمرير النيوني الدقيق */
+/* 3. شريط التمرير النيوني الدقيق */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: rgba(0, 242, 255, 0.02); }
 ::-webkit-scrollbar-thumb { 
@@ -43,7 +45,7 @@ body {
     box-shadow: 0 0 12px var(--purple); 
 }
 
-/* الهيدر العلوي كأنه لوحة تحكم سفينة فضائية */
+/* 4. الهيدر العلوي كأنه لوحة تحكم سفينة فضائية */
 header {
     padding: 20px 40px; 
     background: var(--glass);
@@ -67,7 +69,7 @@ header {
 input {
     flex: 1; background: rgba(0, 5, 15, 0.75); 
     border: 1px solid var(--border);
-    padding: 12px 25px; border-radius: 30px; /* زوايا دائرية ناعمة جداً */
+    padding: 12px 25px; border-radius: 30px;
     color: #fff; outline: none; transition: 0.4s ease; font-size: 13px;
     letter-spacing: 1px;
     box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.1);
@@ -90,15 +92,15 @@ input:focus {
 }
 .btn-glow:hover { 
     background: var(--purple);
-    color: #fff;
     transform: scale(1.05); 
     box-shadow: 0 0 30px rgba(188, 19, 254, 0.8); 
 }
 
+/* 5. المحتوى الرئيسي والتقسيم */
 main {
     display: flex; flex: 1; padding: 30px; gap: 30px;
     overflow: hidden;
-    transform: rotateX(1deg); /* إمالة خفيفة جداً لمحاكاة الشاشات المجسمة */
+    transform: rotateX(1deg); /* إمالة خفيفة لشعور الشاشة الهولوغرامية */
 }
 
 aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
@@ -122,11 +124,9 @@ aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
     text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
 }
 
-#file-list {
-    flex: 1; overflow-y: auto; padding-right: 8px;
-}
+#file-list { flex: 1; overflow-y: auto; padding-right: 8px; }
 
-/* عناصر الملفات كأنها تدفقات بيانات (Data Streams) */
+/* عناصر الملفات (تدفقات البيانات) */
 .file-item {
     padding: 14px 20px; border-radius: 14px; cursor: pointer;
     display: flex; align-items: center; gap: 15px;
@@ -146,7 +146,7 @@ aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
     text-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
 }
 
-/* محرر الكود الرئيسي (الشاشة المركزية) */
+/* 6. محرّر الكود الرئيسي (السمة الأرجوانية) */
 .editor {
     flex: 1; background: rgba(2, 5, 12, 0.7); 
     border: 2px solid var(--purple);
@@ -167,23 +167,26 @@ aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
     text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
 }
 
-/* منطقة الأكواد المشعة المتوهجة */
+/* منطقة الأكواد (اللون الأخضر السيبراني المشع) */
 #code-box {
     flex: 1; overflow: auto !important; padding: 30px; margin: 0;
     background: transparent !important;
     font-family: 'Fira Code', 'Consolas', monospace;
     font-size: 15px; line-height: 1.8; tab-size: 4;
     white-space: pre !important;
-    color: var(--matrix-green); /* اللون الأخضر السيبراني للأكواد */
+    color: var(--matrix-green); 
     text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
+    direction: ltr; /* لضمان قراءة الكود البرمجي من اليسار لليمين بسلاسة */
+    text-align: left;
 }
 
-/* شريط التنزيل العلوي (النبض النيوني) */
+/* شريط النبض النيوني العلوي */
 #loader {
-    position: fixed; top: 0; left: 0; height: 4px; width: 80%; /* تم التعديل ليطابق الصورة */
+    position: fixed; top: 0; left: 0; height: 4px; width: 0; 
     background: linear-gradient(90deg, transparent, var(--cyan), transparent); 
     box-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan);
     z-index: 9999;
+    transition: width 0.5s ease;
 }
 
 @media (max-width: 900px) {
