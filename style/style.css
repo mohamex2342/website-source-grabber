@@ -2,8 +2,8 @@
     --cyan: #00f2ff;
     --purple: #bc13fe;
     --matrix-green: #39ff14;
-    --glass: rgba(10, 25, 50, 0.25); /* خلفية زجاجية داكنة مائلة للزرقة الفضائية */
-    --border: rgba(0, 242, 255, 0.25); /* حدود متوهجة افتراضياً */
+    --glass: rgba(10, 25, 50, 0.25); 
+    --border: rgba(0, 242, 255, 0.25); 
     --bg-black: #020205;
     --glow-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
 }
@@ -18,12 +18,12 @@ body {
     background: var(--bg-black) url('https://w0.peakpx.com/wallpaper/593/631/HD-wallpaper-blue-purple-nebula-stars-background-cosmos-nebula.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #e0e6ed;
-    font-family: 'Courier New', Courier, monospace; /* خط حاد مستوحى من محطات الفضاء */
-    height: 100vh;
+    font-family: 'Courier New', Courier, monospace; 
+    min-height: 100vh; /* تم التعديل لمنع قطع الشاشة في الموبايل */
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    perspective: 1000px; /* يعطي عمق ثلاثي الأبعاد طفيف للواجهة */
+    overflow-x: hidden; /* منع التمرير الأفقي تماماً */
+    perspective: 1000px; 
 }
 
 /* طبقة النبض الضوئي فوق الخلفية لتأثير السديم */
@@ -43,34 +43,46 @@ body {
     box-shadow: 0 0 12px var(--purple); 
 }
 
-/* الهيدر العلوي كأنه لوحة تحكم سفينة فضائية */
+/* الهيدر العلوي */
 header {
-    padding: 20px 40px; 
+    padding: 15px 20px; /* تقليل البادينج ليناسب الموبايل */
     background: var(--glass);
     border-bottom: 2px solid var(--cyan);
     box-shadow: 0 5px 30px rgba(0, 242, 255, 0.15), inset 0 0 20px rgba(0, 242, 255, 0.05);
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 20px; backdrop-filter: blur(30px); z-index: 10;
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+    gap: 15px; 
+    backdrop-filter: blur(30px); 
+    z-index: 10;
+    flex-wrap: wrap; /* السماح للعناصر بالنزول لسطر جديد في الشاشات الصغيرة جداً */
 }
 
 .brand {
-    font-weight: 900; font-size: 1.6rem;
+    font-weight: 900; 
+    font-size: 1.3rem; /* تصغير حجم الخط قليلاً ليناسب الهواتف */
     background: linear-gradient(90deg, #fff, var(--cyan), var(--purple));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    display: flex; align-items: center; gap: 15px;
-    letter-spacing: 3px;
+    display: flex; align-items: center; gap: 10px;
+    letter-spacing: 2px;
     text-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
 }
 
-.input-wrapper { flex: 1; max-width: 600px; display: flex; gap: 15px; }
+.input-wrapper { 
+    flex: 1; 
+    min-width: 250px; /* تضمن عدم انضغاط صندوق الإدخال */
+    display: flex; 
+    gap: 10px; 
+}
 
 input {
     flex: 1; background: rgba(0, 5, 15, 0.75); 
     border: 1px solid var(--border);
-    padding: 12px 25px; border-radius: 30px; /* زوايا دائرية ناعمة جداً */
+    padding: 10px 20px; border-radius: 30px; 
     color: #fff; outline: none; transition: 0.4s ease; font-size: 13px;
     letter-spacing: 1px;
     box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.1);
+    width: 100%;
 }
 input:focus { 
     border-color: var(--cyan); 
@@ -82,11 +94,14 @@ input:focus {
 .btn-glow {
     background: transparent;
     border: 1px solid var(--purple); 
-    color: #fff; padding: 0 35px; border-radius: 30px;
+    color: #fff; 
+    padding: 0 20px; /* تقليل الحشو ليناسب المساحات الضيقة */
+    border-radius: 30px;
     font-weight: bold; cursor: pointer; transition: 0.4s;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     box-shadow: 0 0 15px rgba(188, 19, 254, 0.3), inset 0 0 15px rgba(188, 19, 254, 0.2);
     text-transform: uppercase;
+    white-space: nowrap; /* منع انقسام نص الزر على سطرين */
 }
 .btn-glow:hover { 
     background: var(--purple);
@@ -96,26 +111,34 @@ input:focus {
 }
 
 main {
-    display: flex; flex: 1; padding: 30px; gap: 30px;
+    display: flex; 
+    flex: 1; 
+    padding: 15px; /* تقليل البادينج في الموبايل */
+    gap: 20px;
     overflow: hidden;
-    transform: rotateX(1deg); /* إمالة خفيفة جداً لمحاكاة الشاشات المجسمة */
 }
 
-aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
+aside { 
+    width: 300px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    flex-shrink: 0; /* يمنع انكماش القائمة الجانبية في الشاشات المتوسطة */
+}
 
 /* الألواح الزجاجية المستقبلية */
 .glass-panel {
     background: var(--glass); 
     border: 1px solid var(--border);
-    border-radius: 24px; padding: 25px; display: flex;
+    border-radius: 24px; padding: 20px; display: flex;
     flex-direction: column; backdrop-filter: blur(25px);
     overflow: hidden;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 30px rgba(0, 242, 255, 0.05);
 }
 
 .label {
-    font-size: 0.8rem; color: var(--cyan); margin-bottom: 20px;
-    font-weight: bold; text-transform: uppercase; letter-spacing: 3px;
+    font-size: 0.8rem; color: var(--cyan); margin-bottom: 15px;
+    font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
     display: flex; align-items: center; gap: 12px; 
     border-bottom: 1px solid rgba(0, 242, 255, 0.2);
     padding-bottom: 12px;
@@ -126,10 +149,10 @@ aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
     flex: 1; overflow-y: auto; padding-right: 8px;
 }
 
-/* عناصر الملفات كأنها تدفقات بيانات (Data Streams) */
+/* عناصر الملفات */
 .file-item {
-    padding: 14px 20px; border-radius: 14px; cursor: pointer;
-    display: flex; align-items: center; gap: 15px;
+    padding: 12px 15px; border-radius: 14px; cursor: pointer;
+    display: flex; align-items: center; gap: 12px;
     font-size: 0.9rem; margin-bottom: 10px; transition: 0.3s ease;
     border: 1px solid transparent; color: #a0aec0;
 }
@@ -146,7 +169,7 @@ aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
     text-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
 }
 
-/* محرر الكود الرئيسي (الشاشة المركزية) */
+/* محرر الكود الرئيسي */
 .editor {
     flex: 1; background: rgba(2, 5, 12, 0.7); 
     border: 2px solid var(--purple);
@@ -156,7 +179,7 @@ aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
 }
 
 .editor-top {
-    padding: 15px 35px; background: rgba(188, 19, 254, 0.05);
+    padding: 15px 25px; background: rgba(188, 19, 254, 0.05);
     border-bottom: 1px solid rgba(188, 19, 254, 0.3);
     display: flex; justify-content: space-between; align-items: center;
 }
@@ -167,27 +190,46 @@ aside { width: 350px; display: flex; flex-direction: column; gap: 30px; }
     text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
 }
 
-/* منطقة الأكواد المشعة المتوهجة */
+/* منطقة الأكواد */
 #code-box {
-    flex: 1; overflow: auto !important; padding: 30px; margin: 0;
+    flex: 1; overflow: auto !important; padding: 20px; margin: 0;
     background: transparent !important;
     font-family: 'Fira Code', 'Consolas', monospace;
-    font-size: 15px; line-height: 1.8; tab-size: 4;
+    font-size: 14px; line-height: 1.6; tab-size: 4;
     white-space: pre !important;
-    color: var(--matrix-green); /* اللون الأخضر السيبراني للأكواد */
+    color: var(--matrix-green); 
     text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
 }
 
-/* شريط التنزيل العلوي (النبض النيوني) */
+/* شريط التنزيل العلوي */
 #loader {
-    position: fixed; top: 0; left: 0; height: 4px; width: 80%; /* تم التعديل ليطابق الصورة */
+    position: fixed; top: 0; left: 0; height: 4px; width: 100%; 
     background: linear-gradient(90deg, transparent, var(--cyan), transparent); 
     box-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan);
     z-index: 9999;
 }
 
+/* تعديلات شاشات الموبايل والتابلت المتطورة */
 @media (max-width: 900px) {
-    main { flex-direction: column; overflow-y: auto; }
-    aside { width: 100%; }
-    .editor { min-height: 500px; }
+    body {
+        overflow-y: auto; /* السماح بالتمرير العمودي للموقع بالكامل في الموبايل */
+    }
+    header {
+        flex-direction: column; /* ترتيب عناصر الهيدر عمودياً */
+        align-items: stretch;
+        text-align: center;
+    }
+    .brand {
+        justify-content: center;
+    }
+    main { 
+        flex-direction: column; 
+        overflow: visible; /* إلغاء قفل التمرير */
+    }
+    aside { 
+        width: 100%; 
+    }
+    .editor { 
+        min-height: 450px; 
+    }
 }
